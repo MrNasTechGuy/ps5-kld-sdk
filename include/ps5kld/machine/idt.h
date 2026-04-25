@@ -30,4 +30,7 @@ struct _idt_64
 
 typedef struct _idt_64 idt_64;
 
-#define UNPACK_HANDLER_ADDR(idt)  ( ((uint64_t) idt->offset_high << 32) | (idt->offset_middle << 16) | idt->offset_low)
+#define UNPACK_HANDLER_ADDR(idt) \
+    (((uint64_t)(idt)->offset_high << 32) | \
+    ((uint64_t)(idt)->offset_middle << 16) | \
+    (uint64_t)(idt)->offset_low)

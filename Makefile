@@ -19,10 +19,17 @@ CFLAGS  := --target=x86_64-unknown-none-elf \
            -I./include/ \
            $(IDIRS) \
            -Os -std=c11 \
-           -nostdlib\
+           -ffunction-sections -fdata-sections \
+           -fno-builtin -nostdlib -ffreestanding \
            -Wall -Wextra \
-           -m64 \
-           -fPIC
+           -march=btver2 -mtune=btver2 \
+           -m64 -mcmodel=small \
+           -mno-red-zone \
+           -mno-mmx -mno-sse -mno-sse2 -mno-avx \
+           -mno-80387 -msoft-float \
+           -fPIC \
+           -fno-vectorize -fno-slp-vectorize \
+           $(EXTRA_CFLAGS)
 
 CFILES  := $(wildcard $(SDIR)/*.c)
 SFILES  := $(wildcard $(SDIR)/*.s)
