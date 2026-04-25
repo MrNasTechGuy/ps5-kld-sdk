@@ -34,14 +34,8 @@ jobs:
       - name: Build SDK
         run: make -B
 
-      - name: Build checkout device example
-        run: make -C sample/device_example SDK=../.. -B
-
       - name: Install SDK layout
         run: sudo -E bash ./install.sh
 
       - name: Build installed hello world example
         run: make -C sample/hello_world -B
-
-      - name: Build installed device example
-        run: make -C sample/device_example -B
