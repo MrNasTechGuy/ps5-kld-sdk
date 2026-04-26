@@ -8,6 +8,10 @@ else
     LLVM_PREFIX := /usr/lib/llvm-18/bin
 endif
 
+SDK     ?= /opt/ps5-kld-sdk
+SDK_FREEBSD_HEADERS := $(if $(wildcard $(SDK)/include/freebsd-headers),$(SDK)/include/freebsd-headers,$(SDK)/freebsd-headers)
+SDK_LINKER_SCRIPT   := $(if $(wildcard $(SDK)/ld/linker.x),$(SDK)/ld/linker.x,$(SDK)/linker.x)
+SDK_LIBS            := $(if $(wildcard $(SDK)/lib/*.o),$(SDK)/lib/*.o,$(SDK)/build/*.o)
 CC      := $(LLVM_PREFIX)/clang
 LD      := $(LLVM_PREFIX)/ld.lld
 OBJCOPY := $(LLVM_PREFIX)/llvm-objcopy
@@ -16,8 +20,8 @@ SDIR    := src
 
 MAPFILE := $(shell basename "$(CURDIR)").map
 CFLAGS  := --target=x86_64-unknown-none-elf \
-           -I/opt/ps5-kld-sdk/include/ \
-           -I/opt/ps5-kld-sdk/include/freebsd-headers/ \
+           -I$(SDK)/include/ \
+           -I$(SDK_FREEBSD_HEADERS)/ \
            -I./include/ \
            $(IDIRS) \
            -Os -std=c11 \
@@ -26,9 +30,13 @@ CFLAGS  := --target=x86_64-unknown-none-elf \
            -Wall -Wextra \
            -march=btver2 -mtune=btver2 \
            -m64 -mcmodel=small \
-           -fPIC
+           -mno-red-zone \
+           -mno-mmx -mno-sse -mno-sse2 -mno-avx \
+           -mno-80387 -msoft-float \
+           -fPIC \
+           -fno-vectorize -fno-slp-vectorize
 
-LFLAGS  := -T /opt/ps5-kld-sdk/ld/linker.x \
+LFLAGS  := -T $(SDK_LINKER_SCRIPT) \
            -Map=$(MAPFILE) \
            --gc-sections \
            --build-id=none
@@ -36,7 +44,7 @@ LFLAGS  := -T /opt/ps5-kld-sdk/ld/linker.x \
 CFILES  := $(wildcard $(SDIR)/*.c)
 SFILES  := $(wildcard $(SDIR)/*.s)
 OBJS    := $(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(CFILES)) $(patsubst $(SDIR)/%.s, $(ODIR)/%.o, $(SFILES))
-LIBS    := /opt/ps5-kld-sdk/lib/*.o
+LIBS    := $(SDK_LIBS)
 TARGET  := $(shell basename "$(CURDIR)").bin
 ELF     := $(shell basename "$(CURDIR)").elf
 
