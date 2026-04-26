@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -eu
+
+SDK_ROOT="${PS5_KLD_SDK:-/opt/ps5-kld-sdk}"
+TEMPLATE_DIR="$SDK_ROOT/sample/hello_world"
+
+usage()
+{
+    echo "usage: $0 <project_name>" >&2
+    exit 1
+}
+
+if [ "$#" -ne 1 ]; then
+    usage
+fi
+
+PROJECT_DIR="$1"
+PROJECT_NAME="$(basename "$PROJECT_DIR")"
+
+if [ -z "$PROJECT_NAME" ] || [ "$PROJECT_NAME" = "." ] || [ "$PROJECT_NAME" = ".." ]; then
+    usage
+fi
+
+case "$PROJECT_NAME" in
+    -*)
+        echo "error: project name must not start with '-'" >&2
+        exit 1
+        ;;
+esac
+
+if [ ! -d "$TEMPLATE_DIR" ]; then
+    echo "error: template not found: $TEMPLATE_DIR" >&2
+    echo "install the SDK first, or set PS5_KLD_SDK to the SDK root" >&2
+    exit 1
+fi
+
+if [ -e "$PROJECT_DIR" ]; then
+    echo "error: path already exists: $PROJECT_DIR" >&2
+    exit 1
+fi
+
+cp -R "$TEMPLATE_DIR" "$PROJECT_DIR"
+rm -rf "$PROJECT_DIR/build"
+rm -f "$PROJECT_DIR"/*.bin "$PROJECT_DIR"/*.elf "$PROJECT_DIR"/*.map
+
+mkdir -p "$PROJECT_DIR/src"
+cat > "$PROJECT_DIR/src/main.c" <<EOF
+#include <ps5kld/kernel.h>
+
+int module_start(kproc_args *args)
+{
+    kprintf("[$PROJECT_NAME] hello from kernel SDK, fw=0x%x base=%#lx\\n",
+        args->fwver, args->kdata_base);
+
+    return 0;
+}
+EOF
+
+echo "created $PROJECT_DIR"

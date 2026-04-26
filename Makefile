@@ -24,7 +24,12 @@ CFLAGS  := --target=x86_64-unknown-none-elf \
            -Wall -Wextra \
            -march=btver2 -mtune=btver2 \
            -m64 -mcmodel=small \
-           -fPIC
+           -mno-red-zone \
+           -mno-mmx -mno-sse -mno-sse2 -mno-avx \
+           -mno-80387 -msoft-float \
+           -fPIC \
+           -fno-vectorize -fno-slp-vectorize \
+           $(EXTRA_CFLAGS)
 
 CFILES  := $(wildcard $(SDIR)/*.c)
 SFILES  := $(wildcard $(SDIR)/*.s)

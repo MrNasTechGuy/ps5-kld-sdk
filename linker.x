@@ -22,7 +22,18 @@ SECTIONS
                 *(.rodata*)
         } : rdata_seg
         .data : { *(.data*) } : data_seg
-        .bss  : { *(.bss*)  *(.bss.*) } : bss_seg
+        .bss  : {
+                . = ALIGN(16);
+                __bss_start = .;
+                *(.bss*)
+                *(.bss.*)
+                *(COMMON)
+                . = ALIGN(16);
+                __bss_end = .;
+        } : bss_seg
+        .payload_end : {
+                BYTE(0)
+        } : bss_seg
         /DISCARD/ : {
                 *(.comment)
                 *(.note.GNU-stack)
