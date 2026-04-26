@@ -13,3 +13,4 @@
 #define malloc_MTEMP_offset_403 OFFSET(0xFFFFFFFF82156080)
 #define make_dev_offset_403 0
 #define destroy_dev_offset_403 0
+#define sysentvec_offset_403 OFFSET(0xFFFFFFFF81B21D30)

@@ -15,3 +15,4 @@
 #define malloc_MTEMP_offset_500 OFFSET(0xFFFFFFFF822855A0)
 #define make_dev_offset_500 OFFSET(0xFFFFFFFF808B9FC0)
 #define destroy_dev_offset_500 OFFSET(0xFFFFFFFF808BA740)
+#define sysentvec_offset_500 OFFSET(0xFFFFFFFF81C50D60)

@@ -4,6 +4,7 @@
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/cpuset.h>
+#include <sys/sysent.h>
 #include <machine/specialreg.h>
 #include <stdint.h>
 
@@ -52,4 +53,6 @@ extern struct flat_pmap* kernel_pmap;
 extern uint64_t* apic_ops;
 extern uint64_t* KM_TEMP; // malloc_type
 extern int* cpu_apic_ids;
+extern struct sysentvec* sysentvec;
+extern struct sysent* sysent_table;
 extern uint32_t kernel_fwver;
