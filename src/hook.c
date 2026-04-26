@@ -153,8 +153,6 @@ int hook_install_hwbp(hook_t *hook, void *target, void *replacement)
 
 int hook_install(hook_t *hook, void *target, void *replacement)
 {
-    if (kernel_fwver < 0x500)
-        return -3;
 
     return hook_install_hwbp(hook, target, replacement);
 }
