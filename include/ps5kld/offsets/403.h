@@ -11,6 +11,6 @@
 #define kernel_pmap_offset_403 OFFSET(0xFFFFFFFF84067A78)
 #define malloc_offset_403 OFFSET(0xFFFFFFFF80D66500)
 #define malloc_MTEMP_offset_403 OFFSET(0xFFFFFFFF82156080)
-#define make_dev_offset_403 0
-#define destroy_dev_offset_403 0
+#define make_dev_offset_403 OFFSET(0xFFFFFFFF80890C70)
+#define destroy_dev_offset_403 OFFSET(0xFFFFFFFF808913F0 )
 #define sysentvec_offset_403 OFFSET(0xFFFFFFFF81B21D30)
