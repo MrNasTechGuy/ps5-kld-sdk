@@ -108,11 +108,25 @@ int module_start(void* kproc_args)
 
 ## Using
 
-Check the `sample` folder. To create a new project, you can copy the sample from the SDK installation directory to a new location.
+Check the `sample` folder. To create a new project, you can use the `new_kld_project` helper installed by the SDK.
+
+```
+$ new_kld_project myproj
+$ cd myproj
+$ make
+```
+
+It copies the `hello_world` sample, removes old build files from the template, and creates a simple `src/main.c` using the project name. If the SDK is not installed in `/opt/ps5-kld-sdk`, set `PS5_KLD_SDK` before running it.
+
+```
+$ PS5_KLD_SDK=/path/to/ps5-kld-sdk new_kld_project myproj
+```
+
+You can still copy a sample manually if you want to start from a specific one:
 
 ```
 $ mkdir myproj
-$ cp /opt/ps5-kld-sdk/sample/hello_world/* myproj/
+$ cp -R /opt/ps5-kld-sdk/sample/hello_world/* myproj/
 ```
 
 The payloads are built with the `.bin` extension. You can send them to any kernel module loader, such as `kldload`, or embed them in your own loader.
@@ -120,7 +134,7 @@ The payloads are built with the `.bin` extension. You can send them to any kerne
 Since the SDK includes freebsd-headers, you can use FreeBSD definitions in your project when needed, such as `<sys/cpuset.h>`. Depending on your IDE, you may want to add the following path for code completion:
 
 - /opt/ps5-kld-sdk/include
-- /oot/ps5-kld-sdk/include/freebsd-headers
+- /opt/ps5-kld-sdk/include/freebsd-headers
 
 ## Porting
 
