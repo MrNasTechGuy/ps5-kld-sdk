@@ -51,6 +51,12 @@ int init_kernel(uint32_t fwver)
 
     switch (fwver)
     {
+        case 0x100:
+            SET_KERNEL_SYMBOLS(100);
+            break;
+        case 0x270:
+            SET_KERNEL_SYMBOLS(270);
+            break;
         case 0x403:
             SET_KERNEL_SYMBOLS(403);
             break;
