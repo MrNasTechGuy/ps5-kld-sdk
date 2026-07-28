@@ -6,7 +6,8 @@ This an Kernel SDK is designed to support research on PlayStation 5 kernels when
 I've wrote this SDK to eliminate the need to rewrite the same kernel initialization code each time I started a new project or simple tests. It also encapsulates useful functions and includes its own CRT for more complex initializations when needed.
 
 It currently includes offsets for functions and kernel variables for the following firmware versions:
-
+- 1.00
+- 2.70
 - 4.03
 - 5.0
 
