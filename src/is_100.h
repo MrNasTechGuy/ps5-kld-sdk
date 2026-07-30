@@ -1,5 +1,5 @@
 //1.00 offsets
-
+// P.S i was very tired when writing this, i am NOT using ai
 #define IS_100FW
 #if IS_100FW
 int OFFSET_KERNEL_STACK_COOKIE;
